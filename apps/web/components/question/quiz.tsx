@@ -1,6 +1,8 @@
-// src/Quiz.tsx
+"use client";
 import React, { useState, useEffect } from "react";
 import questions from "@/config/quiz";
+import QuestionDisplay from "./question-display";
+import QuizEndDisplay from "./quiz-end-display";
 
 const Quiz: React.FC = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
@@ -44,48 +46,23 @@ const Quiz: React.FC = () => {
     setTimer(10);
   };
 
-  const renderQuestion = () => {
-    const answerLabels = ["A", "B", "C", "D"];
-
-    return (
-      <div className="text-center">
-        <h2 className="text-xl md:text-2xl font-bold mb-4">
-          {questions[currentQuestionIndex].question}
-        </h2>
-        <div className="flex flex-col justify-center items-center">
-          {questions[currentQuestionIndex].answers.map((answer, index) => (
-            <button
-              key={index}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2 w-full"
-              onClick={() => handleAnswerSelection(index)}
-            >
-              {answerLabels[index]}. {answer}
-            </button>
-          ))}
-        </div>
-        <p className="text-lg mt-4">剩餘時間：{timer} 秒</p>
-      </div>
-    );
-  };
-
-  const renderQuizEnd = () => (
-    <div className="text-center">
-      <h2 className="text-3xl font-bold mb-4">測驗結束</h2>
-      <p className="text-lg mb-2">答對：{correctCount} 題</p>
-      <p className="text-lg mb-4">答錯：{incorrectCount} 題</p>
-      <button
-        onClick={restartQuiz}
-        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-      >
-        重新測驗
-      </button>
-    </div>
-  );
-
   return (
     <div className="container mx-auto p-4 flex items-center justify-center">
-      <div className="bg-white bg-opacity-30 backdrop-blur-md rounded-lg p-8 shadow-lg w-full max-w-4xl overflow-auto">
-        {isQuizFinished ? renderQuizEnd() : renderQuestion()}
+      <div className="bg-white bg-opacity-10 backdrop-blur-md rounded-lg p-8 shadow-lg w-full max-w-4xl overflow-auto">
+        {isQuizFinished ? (
+          <QuizEndDisplay
+            correctCount={correctCount}
+            incorrectCount={incorrectCount}
+            restartQuiz={restartQuiz}
+          />
+        ) : (
+          <QuestionDisplay
+            question={questions[currentQuestionIndex].question}
+            answers={questions[currentQuestionIndex].answers}
+            timer={timer}
+            handleAnswerSelection={handleAnswerSelection}
+          />
+        )}
       </div>
     </div>
   );

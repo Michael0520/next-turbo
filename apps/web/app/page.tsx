@@ -1,6 +1,5 @@
 "use client";
-import Quiz from "@/components/quiz";
-import { Button } from "@ui/components/button";
+import Quiz from "@/components/question/quiz";
 
 export default function Page() {
   return (
@@ -8,8 +7,9 @@ export default function Page() {
       <header>
         <h1 className="text-center text-2xl">Quiz App</h1>
       </header>
-      {/* <Button>Click me</Button> */}
-      <Quiz />
+      <main>
+        <Quiz />
+      </main>
     </div>
   );
 }
